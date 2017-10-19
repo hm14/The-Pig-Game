@@ -22,8 +22,7 @@ document.getElementById('score-1').textContent = '0';
 document.getElementById('current-0').textContent = '0';
 document.getElementById('current-0').textContent = '0';
 
-// add event listener to .btn-roll element
-// run anonymous function upon click
+// event handler for roll dice button
 document.querySelector('.btn-roll').addEventListener('click', function() {
   // 1. generate random number between 1 and 6
   dice = Math.floor(Math.random()*6) + 1;
@@ -32,8 +31,6 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
   var diceDOM = document.querySelector('.dice');
   diceDOM.style.display = 'block';
   diceDOM.src = 'dice-' + dice + '.png';
-  // manipulate DOM element's text through query Selector
-  document.querySelector('#score-' + activePlayer).textContent = dice;
 
   // 3. update round score if dice roll is not 1
   if(dice !== 1) {
@@ -41,12 +38,38 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     roundScore += dice;
     document.querySelector('#current-' + activePlayer).textContent = roundScore;
   } else {
-    // switch activePlayer
-    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-    // reset round score to 0
-    roundScore = 0;
-    
-    document.getElementById('current-0').textContent = '0';
-    document.getElementById('current-1').textContent = '0';
+    switchPlayers();
   }
 });
+
+// event handler for hold score button
+document.querySelector('.btn-hold').addEventListener('click', function() {
+  // add current score to global score
+  scores[activePlayer] += roundScore;
+
+  // update UI
+  document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+
+  // check if player won the game
+
+  // switch players
+  switchPlayers();
+});
+
+function switchPlayers() {
+  // switch activePlayer
+  activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+
+  // reset round score to 0
+  roundScore = 0;
+
+  document.getElementById('current-0').textContent = '0';
+  document.getElementById('current-1').textContent = '0';
+
+  // toggle adds active class if not active or removes if already active
+  document.querySelector('.player-0-panel').classList.toggle('active');
+  document.querySelector('.player-1-panel').classList.toggle('active');
+
+  // hide dice after 1 is rolled
+  document.querySelector('.dice').style.display = 'none';
+}
