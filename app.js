@@ -16,6 +16,11 @@ activePlayer = 0;
 
 // hide dice image before first rolls
 document.querySelector('.dice').style.display = 'none';
+// set score-0, score-1, current-0 and current-1 to 0
+document.getElementById('score-0').textContent = '0';
+document.getElementById('score-1').textContent = '0';
+document.getElementById('current-0').textContent = '0';
+document.getElementById('current-0').textContent = '0';
 
 // add event listener to .btn-roll element
 // run anonymous function upon click
@@ -28,5 +33,20 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
   diceDOM.style.display = 'block';
   diceDOM.src = 'dice-' + dice + '.png';
   // manipulate DOM element's text through query Selector
-  document.querySelector('#current-' + activePlayer).textContent = dice;
+  document.querySelector('#score-' + activePlayer).textContent = dice;
+
+  // 3. update round score if dice roll is not 1
+  if(dice !== 1) {
+    // add score
+    roundScore += dice;
+    document.querySelector('#current-' + activePlayer).textContent = roundScore;
+  } else {
+    // switch activePlayer
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    // reset round score to 0
+    roundScore = 0;
+    
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+  }
 });
