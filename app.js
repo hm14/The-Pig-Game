@@ -2,9 +2,9 @@
 GAME RULES:
 
 - The game has 2 players, playing in rounds
-- In each turn, a player rolls a dice as many times as he wishes. Each result get added to his ROUND score
-- BUT, if the player rolls a 1, all his ROUND score gets lost. After that, it's the next player's turn
-- The player can choose to 'Hold', which means that his ROUND score gets added to his GLBAL score. After that, it's the next player's turn
+- In each turn, a player rolls the dice as many times as he wishes. Each result get added to his ROUND score
+- BUT, if the player rolls 1 on one or both dice, all his ROUND score gets lost. After that, it's the next player's turn
+- The player can choose to 'Hold', which means that his ROUND score gets added to his GOLBAL score. After that, it's the next player's turn
 - The first player to reach 100 points on GLOBAL score wins the game
 
 */
@@ -20,7 +20,8 @@ function resetScores() {
   gameActive = true;
 
   // hide dice image before first rolls
-  document.querySelector('.dice').style.display = 'none';
+  document.querySelector('#dice-1').style.display = 'none';
+  document.querySelector('#dice-2').style.display = 'none';
 
   document.querySelector('.btn-roll').style.display = 'block';
   document.querySelector('.btn-hold').style.display = 'block';
@@ -45,17 +46,22 @@ function resetScores() {
 document.querySelector('.btn-roll').addEventListener('click', function() {
   if(gameActive) {
     // 1. generate random number between 1 and 6
-    dice = Math.floor(Math.random()*6) + 1;
+    dice1 = Math.floor(Math.random()*6) + 1;
+    dice2 = Math.floor(Math.random()*6) + 1;
 
     // 2. update dice image and current roll value based on dice value
-    var diceDOM = document.querySelector('.dice');
-    diceDOM.style.display = 'block';
-    diceDOM.src = 'dice-' + dice + '.png';
+    var dice1DOM = document.querySelector('#dice-1');
+    dice1DOM.style.display = 'block';
+    dice1DOM.src = 'dice-' + dice1 + '.png';
+    var dice2DOM = document.querySelector('#dice-2');
+    dice2DOM.style.display = 'block';
+    dice2DOM.src = 'dice-' + dice2 + '.png';
 
     // 3. update round score if dice roll is not 1
-    if(dice !== 1) {
+    if(dice1 !== 1 && dice2 !== 1) {
       // add score
-      roundScore += dice;
+      roundScore += dice1;
+      roundScore += dice2;
       document.querySelector('#current-' + activePlayer).textContent = roundScore;
     } else {
       switchPlayers();
@@ -103,5 +109,6 @@ function switchPlayers() {
   document.querySelector('.player-1-panel').classList.toggle('active');
 
   // hide dice after 1 is rolled
-  document.querySelector('.dice').style.display = 'none';
+  // document.querySelector('#dice-1').style.display = 'none';
+  // document.querySelector('#dice-2').style.display = 'none';
 }
