@@ -2,10 +2,10 @@
 GAME RULES:
 
 - The game has 2 players, playing in rounds
-- In each turn, a player rolls the dice as many times as he wishes. Each result get added to his ROUND score
+- In each turn, a player rolls two dice as many times as he wishes. Each result get added to his ROUND score
 - BUT, if the player rolls 1 on one or both dice, all his ROUND score gets lost. After that, it's the next player's turn
 - The player can choose to 'Hold', which means that his ROUND score gets added to his GOLBAL score. After that, it's the next player's turn
-- The first player to reach 100 points on GLOBAL score wins the game
+- The first player to reach 100 points (or user enetered score) on GLOBAL score wins the game
 
 */
 
@@ -78,8 +78,17 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
     // update UI
     document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
 
+    // set high score to default value
+    // use default value when here is no user input
+    var highScore = 100;
+    // get user enetred high score
+    var userInput = document.querySelector('.high-score').value;
+    if (userInput) {
+      highScore = userInput;
+    }
+
     // check if player won the game
-    if(scores[activePlayer] >= 100) {
+    if(scores[activePlayer] >= highScore) {
       document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
       document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
       document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
